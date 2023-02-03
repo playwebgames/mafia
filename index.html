@@ -37,14 +37,208 @@
   </button>
 
 
-    <div class="cursor"></div>
+
+
+  <div class="cursor">
+
+    <div class="click-animation">
+
+      <div class="shape circle big"></div>
+
+      <div class="shape circle small"></div>
+
+      <div class="shape triangle yellow"></div>
+
+      <div class="shape triangle green"></div>
+
+      <div class="shape disc"></div>
+
+    </div>
+
+  </div>
+
+
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+  <div class="trail"></div>
+
+
+
+
+
+ <script>
+
+    //Javascript for animate the cursor on mouse click
+
+    const cursorAnimation = document.querySelector(".cursor");
+
+    const cursors = document.querySelectorAll(".cursor");
+
+
+
+    document.addEventListener("click", (e) => {
+
+      let x = e.clientX;
+
+      let y = e.clientY;
+
+
+
+      cursorAnimation.style.top = y + "px";
+
+      cursorAnimation.style.left = x + "px";
+
+
+
+      cursors.forEach((cursor) => {
+
+        cursor.classList.add("active");
+
+
+
+        function removeCursorActive(){
+
+          cursor.classList.remove("active");
+
+        }
+
+
+
+        setTimeout(removeCursorActive, 1000);
+
+      });
+
+      
+
+      let cursorClone = cursorAnimation.cloneNode(true);
+
+      document.querySelector("body").appendChild(cursorClone);
+
+
+
+      setTimeout(() => {
+
+        cursorClone.remove();
+
+      }, 1000);
+
+    });
+
+  </script>
+
+
+<script type="text/javascript">
+  const coords = { x: 0, y: 0 };
+const circles = document.querySelectorAll(".trail");
+
+const colors = [
+  "#fff",
+  "#e3e3e3",
+  "#dedede",
+  "#dbdbdb",
+  "#d6d6d6",
+  "#d1d1d1",
+  "#cfcfcf",
+  "#c4c4c4",
+  "#bababa",
+  "#ababab",
+  "#a3a3a3",
+  "#949494",
+  "#828282",
+  "#757575",
+  "#6b6b6b",
+  "#5e5e5e",
+  "#4f4f4f",
+  "#383838",
+  "#292929",
+  "#1f1f1f",
+  "#121212",
+  "#000000"
+];
+
+circles.forEach(function (circle, index) {
+  circle.x = 0;
+  circle.y = 0;
+  circle.style.backgroundColor = colors[index % colors.length];
+});
+
+window.addEventListener("mousemove", function(e){
+  coords.x = e.clientX;
+  coords.y = e.clientY;
+  
+});
+
+function animateCircles() {
+  
+  let x = coords.x;
+  let y = coords.y;
+  
+  circles.forEach(function (circle, index) {
+    circle.style.left = x - 12 + "px";
+    circle.style.top = y - 12 + "px";
+    
+    circle.style.scale = (circles.length - index) / circles.length;
+    
+    circle.x = x;
+    circle.y = y;
+
+    const nextCircle = circles[index + 1] || circles[0];
+    x += (nextCircle.x - x) * 0.3;
+    y += (nextCircle.y - y) * 0.3;
+  });
+ 
+  requestAnimationFrame(animateCircles);
+}
+
+animateCircles();
+
+</script>
+
+
+
 </main>
 
 
+
+
 <style type="text/css">
+.trail {
+  height: 24px;
+  width: 24px;
+  border-radius: 24px;
+  background-color: black;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 98; /* so that it stays on top of all other elements */
+}
+
+
+
+
   
 * {
   box-sizing: border-box;
+  cursor: none;
 }
 
 #gameFrame {
@@ -70,6 +264,7 @@
   position: absolute;
   border-radius: 20px;
   top: 96.5%;
+  animation: shake 0.5s;
   z-index: 1;
   border: 2px solid black;
   width: 10%;
@@ -87,6 +282,7 @@
   display: none;
   z-index: 2;
   transition: 2s ease;
+  animation: shake 0.5s;
 }
 
 #newGame span {
@@ -107,10 +303,12 @@
 .playerWon #newGame {
   background-color: #4CAF50;
   transition: all 2s ease-in-out;
+  animation: shake 0.5s;
 }
 .playerDead #newGame {
   background-color: coral;
   transition: all 2s ease-in-out;
+  animation: shake 0.5s;
 }
 
 .ennemy {
@@ -150,7 +348,6 @@ body {
 
 #gameFrame {
   font-weight: bold;
-  cursor: crosshair;
   user-select: none;
   border-radius: 10px;
   color: coral;
@@ -165,7 +362,7 @@ body {
 #newGame {
   background: radial-gradient(circle, rgba(44, 3, 64,1) 0%, rgba(148, 62, 132,1) 100%);
   color: white;
-  cursor: pointer;
+  cursor: none;
   font-size: 30px;
   letter-spacing: -.05em;
   font-weight: bold;  
@@ -229,6 +426,7 @@ body {
   box-shadow: inset 50px 0 25px #ff7f5063;
   color: rgba(255, 255, 255, .1);
   border-color: #361C17;
+  animation: shake 0.5s;
 }
 
 .ennemy.shooting:before {
@@ -245,6 +443,7 @@ body {
     padding: 0;
     font-size: 10em;
     bottom: -60px;
+    animation: shake 0.5s;
     height: 70px;
 }
 
@@ -254,6 +453,7 @@ body {
 
 /* Ennemy's dead face */
 .ennemy.dead:before {
+  animation: shake 0.5s;
   content: "-.-";
 }
 
@@ -267,84 +467,317 @@ body {
 
 
 
-.cursor {
-    width: 20px;
-    height: 20px;
-    border: 1px solid white;
-    border-radius: 50%;
-    position: absolute;
-    transition-duration: 200ms;
-    z-index: 5;
-    transition-timing-function: ease-out;
-    animation: cursorAnim 0.5s infinite alternate;
-    pointer-events: none;
+/*======= Cursor click animation =======*/
+
+.cursor{
+
+  z-index: 99;
+
+  position: fixed;
+
 }
 
-.cursor::after {
-    content: "";
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    border: 5px solid gold;
-    border-radius: 30%;
+
+
+.cursor .click-animation{
+
+  position: relative;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+}
+
+
+
+.cursor .click-animation .shape{
+
+  position: absolute;
+
+  opacity: 0;
+
+}
+
+
+
+/*======= Circles =======*/
+
+.cursor .click-animation .shape.circle.big{
+
+  width: 35px;
+
+  height: 35px;
+  rotate: 45deg;
+  border: 4px dotted orangered;
+
+  border-radius: 30%;
+
+}
+
+
+
+.cursor .click-animation .shape.circle.small{
+
+  width: 25px;
+
+  height: 25px;
+
+  border: 2px solid orange;
+
+  border-radius: 50%;
+
+}
+
+
+
+.cursor.active .click-animation .shape.circle{
+
+  animation: click-animation-circle 3s ease-out infinite;
+
+}
+
+
+
+@keyframes click-animation-circle{
+
+  0%{
+
+    opacity: 0;
+
+  }
+
+  5%{
+
     opacity: 1;
-    top: -13px;
-    left: -13px;
-    animation: cursorAnim2 .5s infinite alternate;
-}
 
-@keyframes cursorAnim {
-    from {
-        transform: scale(0);
-    }
-    to {
-        transform: scale(.0);
-    }
-}
-
-@keyframes cursorAnim2 {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(0.4);
-    }
-}
-
-@keyframes cursorAnim3 {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(4);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 0;
-    }
-}
-
-.expand {
-    animation: cursorAnim3 1s forwards;
-    border: 3px dotted darkorange;
-    z-index: 5;
-}
-
-p {
-  color: white;
-  font-family: 'arial';
-  text-align: center;
-  margin-top: 50px;
-  font-size: 1.4em;
   }
-  a {
-    color: blue;
+
+  30%{
+
+    opacity: 0;
+
+    transform: scale(3);
+
   }
+
+}
+
+
+
+/*======= Triangles =======*/
+
+.cursor .click-animation .shape.triangle.yellow{
+
+  border-style: solid;
+
+  border-width: 0 5px 10px 5px;
+
+  border-color: transparent transparent red transparent;
+
+}
+
+
+
+.cursor.active .click-animation .shape.triangle.yellow{
+
+  animation: click-animation-triangle-yellow 3s ease-out infinite;
+
+}
+
+
+
+@keyframes click-animation-triangle-yellow{
+
+  0%{
+
+    opacity: 0;
+
+  }
+
+  5%{
+
+    opacity: 1;
+
+  }
+
+  40%{
+
+    opacity: 0;
+
+    transform: scale(2.5) translate(50px, -50px) rotate(360deg);
+
+  }
+
+}
+
+
+
+.cursor .click-animation .shape.triangle.green{
+
+  border-style: solid;
+
+  border-width: 0 3.5px 7px 3.5px;
+
+  border-color: transparent transparent red transparent;
+
+}
+
+
+
+.cursor.active .click-animation .shape.triangle.green{
+
+  animation: click-animation-triangle-green 3s ease-out infinite;
+
+}
+
+
+
+@keyframes click-animation-triangle-green{
+
+  0%{
+
+    opacity: 0;
+
+  }
+
+  5%{
+
+    opacity: 1;
+
+  }
+
+  40%{
+
+    opacity: 0;
+
+    transform: scale(2.5) translate(20px, 50px) rotate(360deg);
+
+  }
+
+}
+
+
+
+/*======= Disc =======*/
+
+.cursor .click-animation .shape.disc{
+
+  width: 8.5px;
+
+  height: 8.5px;
+
+  background: red;
+
+  border-radius: 50%;
+
+}
+
+
+
+.cursor.active .click-animation .shape.disc{
+
+  animation: click-animation-disc 3s ease-out infinite;
+
+}
+
+
+
+@keyframes click-animation-disc{
+
+  0%{
+
+    opacity: 0;
+
+  }
+
+  5%{
+
+    opacity: 1;
+
+  }
+
+  40%{
+
+    opacity: 0;
+
+    transform: scale(2) translate(-70px, -30px);
+
+  }
+
+}
+
+
+
+/*======= Home section =======*/
+
+section{
+
+  color: #fff;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  padding: 0 200px;
+
+}
+
+
+
+.home h1{
+
+  font-size: 2.5em;
+
+  margin-bottom: 10px;
+
+}
+
+
+
+.home p{
+
+  font-size: 1em;
+
+}
+
+      
+
+
+
+
+
+
+
+
+}
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+
+}
 
 </style>
 
 
 <script type="text/javascript">
+
+
   // SOUNDS
 var myGunshot = new Audio('http://dev.pascalou.co.uk/shooter/audio/laser_sound.m4a');
 var ennemyFalling = new Audio('http://dev.pascalou.co.uk/shooter/audio/thud.m4a');
@@ -358,11 +791,15 @@ var myLifePoints = 100;
 
 function livingEnnemies() {
   return document.querySelectorAll(".ennemy:not(.dead)");
+
+  document.getElementById('gameFrame').style.animation = "shake 2s";
 }
 
 
 // ENNEMY SHOOTS ME
 function ennemyShootsMe(ennemy) {
+
+  document.getElementById('gameFrame').style.animation = "shake 2s";
   if(ennemy) {
     ennemy.classList.add("showing");
     setTimeout(function() {
@@ -386,6 +823,7 @@ function ennemyShootsMe(ennemy) {
 // ELEMENT OF SURPRISE
 function randomEnnemyShots() {
 
+  document.getElementById('gameFrame').style.animation = "shake 2s";
   if(myLifePoints > 0) {
 
     if(livingEnnemies()) {
@@ -417,6 +855,8 @@ function updateLifePoints(amount) {
     }, 500);
   }
   document.getElementById("healthBar").style.width = myLifePoints+"%";
+
+  document.getElementById('gameFrame').style.animation = "shake 2s";
 }
 
 
@@ -428,12 +868,18 @@ function iShoot(ennemy) {
   ennemy.classList.add("dead");
   ennemyFalling.play();         
 
+  document.getElementById('gameFrame').style.animation = "shake 2s";
+
   /* Victory! */
   if(!livingEnnemies().length) {
     setTimeout(function() {
       gameFrame.classList.add("playerWon");
+      document.getElementById('gameFrame').style.animation = "shake 2s";
     }, 300);
+
   }
+
+
 }
 
 // VISUAL AND SOUND EFFECTS WHEN I SHOOT
@@ -443,6 +889,8 @@ function myShootingEffects() {
   setTimeout(function() {
     gameFrame.classList.remove("playerShooting");
   }, 150);
+
+  document.getElementById('gameFrame').style.animation = "shake 0.5s";
 }
 
 
@@ -460,6 +908,7 @@ function newGame() {
     randomEnnemyShots();
   }, 3000);
 
+  document.getElementById('gameFrame').style.animation = "shake 2s";
 }
 
 
@@ -467,6 +916,7 @@ livingEnnemies().forEach(ennemy => {
 
   ennemy.addEventListener("click", function() {
     iShoot(ennemy);
+    document.getElementById('gameFrame').style.animation = "shake 2s";
   });
 
 });
@@ -483,10 +933,10 @@ livingEnnemies().forEach(ennemy => {
 
 
 
+
         const cursor = document.querySelector('.cursor');
 
         document.addEventListener('mousemove', e => {
-            cursor.setAttribute("style", "top: "+(e.pageY - 0)+"px; left: "+(e.pageX - 380)+"px;")
         })
 
         document.addEventListener('click', () => {
