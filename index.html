@@ -9,7 +9,9 @@
 
 <main id="gameFrame" class="firstGame" onclick="myShootingEffects()">
 
-  <div id="healthBar"></div>
+  <div id="healthBar">
+    <span class="emoji">  Health</span>
+  </div>
 
   <div class="ennemy" style="left: 030px;"></div>
   <div class="ennemy" style="left: 200px;"></div>
@@ -21,19 +23,21 @@
   <button onclick="newGame()" id="newGame">
 
     <span class="messageWon">
-      <span class="emoji"></span> You Won!!
+      <span class="emoji">👑</span> Victory!!
     </span>
     <span class="messageDead">
       <span class="emoji">😵</span> Bad Luck…
     </span>
     <span class="messageWelcome">
-      <span class="emoji">🤖</span> Start...
+      <span class="emoji">🤠</span> Start...
     </span>
 
-    <p> New game</p>
+    <p> New Wave</p>
 
   </button>
 
+
+    <div class="cursor"></div>
 </main>
 
 
@@ -61,12 +65,14 @@
 }
 
 #healthBar {
-  background-color: coral;
+  background-color: orangered;
   height: 20px;
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
+  border-radius: 20px;
+  top: 96.5%;
+  z-index: 1;
+  border: 2px solid black;
+  width: 10%;
 }
 
 
@@ -80,10 +86,12 @@
   height: 100%;
   display: none;
   z-index: 2;
+  transition: 2s ease;
 }
 
 #newGame span {
   display: none;
+  transition: all 2s ease-in-out;
 }
 
 #gameFrame.playerWon .messageWon,
@@ -93,13 +101,16 @@
 .playerDead #newGame,
 .playerWon #newGame {
   display: block;
+  transition: all 2s ease-in-out;
 }
 
 .playerWon #newGame {
   background-color: #4CAF50;
+  transition: all 2s ease-in-out;
 }
 .playerDead #newGame {
   background-color: coral;
+  transition: all 2s ease-in-out;
 }
 
 .ennemy {
@@ -120,11 +131,12 @@
 }
 
 .ennemy.dead {
-  transform: rotate(-90deg);
+  transform: rotate(80deg) scale(0.7);
   transform-origin: bottom left;
   bottom: -13%;
   background-color: white;
   margin-left: 20%;
+  filter:brightness(2);
 }
 
 
@@ -143,36 +155,40 @@ body {
   border-radius: 10px;
   color: coral;
   box-shadow: inset 0 -200px 50px #81a2a740, inset 0 100px 80px #11111140;  
+  border: 4px solid yellow;
 }
 
 #healthBar {
-  transition: width .3s;
+  transition: width 1s;
 }
 
 #newGame {
-  background: radial-gradient(circle, rgba(15,121,96,1) 0%, rgba(56,96,134,1) 100%);
+  background: radial-gradient(circle, rgba(44, 3, 64,1) 0%, rgba(148, 62, 132,1) 100%);
   color: white;
   cursor: pointer;
   font-size: 30px;
   letter-spacing: -.05em;
   font-weight: bold;  
+  transition: all 2s ease;
 }
 
 #newGame p {
   font-size: 1.5em;
   margin-top: .5em;
-  color: gold;
+  color: yellow;
 }
 
 #newGame .emoji {
   display: block;
   font-size: 2em;
+  margin-bottom: 1.6em;
+  text-shadow: 0 2px 2px rgba(255, 242, 0, 0.5);
 }
 
 .ennemy {
   border-top: 80px solid  #142221;
   border-bottom: 150px solid  #1c3331;
-  border-radius: 30px;
+  border-radius: 170px;
   box-shadow: 0 -1px 14px #ffffff5c, inset 0 32px 15px rgba(0, 0, 0, .3);
 }
 
@@ -211,7 +227,7 @@ body {
 
 .ennemy.shooting {
   box-shadow: inset 50px 0 25px #ff7f5063;
-  color: rgba(255, 255, 255, .3);
+  color: rgba(255, 255, 255, .1);
   border-color: #361C17;
 }
 
@@ -238,8 +254,93 @@ body {
 
 /* Ennemy's dead face */
 .ennemy.dead:before {
-  content: "*_*";
+  content: "-.-";
 }
+
+
+
+
+
+
+
+
+
+
+
+.cursor {
+    width: 20px;
+    height: 20px;
+    border: 1px solid white;
+    border-radius: 50%;
+    position: absolute;
+    transition-duration: 200ms;
+    z-index: 5;
+    transition-timing-function: ease-out;
+    animation: cursorAnim 0.5s infinite alternate;
+    pointer-events: none;
+}
+
+.cursor::after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    border: 5px solid gold;
+    border-radius: 30%;
+    opacity: 1;
+    top: -13px;
+    left: -13px;
+    animation: cursorAnim2 .5s infinite alternate;
+}
+
+@keyframes cursorAnim {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(.0);
+    }
+}
+
+@keyframes cursorAnim2 {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.4);
+    }
+}
+
+@keyframes cursorAnim3 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(4);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.expand {
+    animation: cursorAnim3 1s forwards;
+    border: 3px dotted darkorange;
+    z-index: 5;
+}
+
+p {
+  color: white;
+  font-family: 'arial';
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.4em;
+  }
+  a {
+    color: blue;
+  }
+
 </style>
 
 
@@ -369,6 +470,32 @@ livingEnnemies().forEach(ennemy => {
   });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const cursor = document.querySelector('.cursor');
+
+        document.addEventListener('mousemove', e => {
+            cursor.setAttribute("style", "top: "+(e.pageY - 0)+"px; left: "+(e.pageX - 380)+"px;")
+        })
+
+        document.addEventListener('click', () => {
+            cursor.classList.add("expand");
+
+            setTimeout(() => {
+                cursor.classList.remove("expand");
+            }, 500)
+        })
 </script>
 
 </body>
